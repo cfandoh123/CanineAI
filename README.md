@@ -90,5 +90,21 @@ The app requires:
 
 ---
 
+## Dataset Acknowledgement
+
+This project uses a dataset provided by Aditya Khosla et al. for training and evaluation purposes.  
+The dataset includes training and test splits, as well as feature matrices and labels, as described below:
+
+- `train_list.mat` / `test_list.mat`: Lists and labels of all training and test images in the dataset.
+- `train_data.mat` / `test_data.mat`: Feature matrices after applying the histogram intersection kernel.
+- `train_fg_data.mat` / `test_fg_data.mat`: Feature matrices before applying the histogram intersection kernel.
+- `train_info.mat` / `test_info.mat`: Labels and IDs for the corresponding images in the feature matrices.
+
+For more information about the dataset, please contact Aditya Khosla at aditya86@cs.stanford.edu.
+
+**Dataset Credit:**  
+Dataset and description courtesy of Aditya Khosla et al.
+
+
 ## 📄 License
 This project is for educational and demonstration purposes. See individual asset sources for their respective licenses.
