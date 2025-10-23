@@ -11,8 +11,10 @@ import 'package:canine_ai/history_page.dart';
 import 'package:canine_ai/settings_page.dart';
 import 'package:provider/provider.dart';
 import 'package:canine_ai/news_page.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
-void main() {
+Future<void> main() async {
+  await dotenv.load(fileName: ".env");
   runApp(
     ChangeNotifierProvider(
       create: (_) => ThemeProvider(),
@@ -74,14 +76,17 @@ class _HomePageState extends State<HomePage> {
   Interpreter? _interpreter;
   bool _isLoading = true;
   late List heap;
+  List<String> _labels = [];
 
   @override
   void initState() {
     super.initState();
     loadModel().then((_) {
-      setState(() {
-        _isLoading = false;
-      });
+      if (mounted) {
+        setState(() {
+          _isLoading = false;
+        });
+      }
     });
   }
 
@@ -93,23 +98,47 @@ class _HomePageState extends State<HomePage> {
       final Uint8List modelBytes = modelData.buffer.asUint8List();
       // Initialize interpreter
       _interpreter = Interpreter.fromBuffer(modelBytes);
+
+      // Load labels
+      final String labelsData = await rootBundle.loadString('assets/model/labels.txt');
+      _labels = labelsData.split('\n');
     } catch (e) {
       print('Failed to load the model or labels: $e');
+      // Show an error dialog to the user
+      if (mounted) {
+        showDialog(
+          context: context,
+          builder: (context) => AlertDialog(
+            title: const Text('Error'),
+            content: const Text('Failed to load the model. Please restart the app.'),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.of(context).pop(),
+                child: const Text('OK'),
+              ),
+            ],
+          ),
+        );
+      }
     }
   }
 
   Future<void> runInference(img.Image image) async {
+    if (_interpreter == null) {
+      print('Interpreter is null. Cannot run inference.');
+      return;
+    }
     // Preprocess the image
-    img.Image resizedImage = img.copyResize(image, width: 224, height: 224);
+    img.Image resizedImage = img.copyResizeCropSquare(image, size: 224);
     var input = Float32List(1 * 224 * 224 * 3); // Reshape input tensor
 
     var index = 0;
     for (var i = 0; i < 224; i++) {
       for (var j = 0; j < 224; j++) {
         var pixel = resizedImage.getPixel(j, i);
-        input[index++] = (pixel.r - 128) / 255.0; // Red
-        input[index++] = (pixel.g - 128) / 255.0; // Green
-        input[index++] = (pixel.b - 128) / 255.0; // Blue
+        input[index++] = pixel.r / 255.0; // Red
+        input[index++] = pixel.g / 255.0; // Green
+        input[index++] = pixel.b / 255.0; // Blue
       }
     }
 
@@ -124,6 +153,25 @@ class _HomePageState extends State<HomePage> {
 
     // Run inference
     _interpreter!.run(inputBuffer, outputBuffer);
+
+    // --- DETAILED DEBUG LOGGING ---
+    print('--- Inference Debug Output ---');
+    // Print the first 10 values of the input tensor to check normalization
+    print('Input Tensor Sample (First 10 values): ${input.sublist(0, 10)}');
+    // Find and print the highest score and its index
+    double maxScore = 0.0;
+    int maxIndex = -1;
+    for (int i = 0; i < outputBuffer[0].length; i++) {
+      if (outputBuffer[0][i] > maxScore) {
+        maxScore = outputBuffer[0][i];
+        maxIndex = i;
+      }
+    }
+    print('Highest Confidence Score: $maxScore at Index: $maxIndex');
+    if (maxIndex != -1 && maxIndex < _labels.length) {
+      print('Predicted Label for Highest Score: ${_labels[maxIndex]}');
+    }
+    print('--- End Debug Output ---');
 
     List<Map<String, dynamic>> pairs = [];
     for (int i = 0; i < outputBuffer[0].length; i++) {
@@ -316,7 +364,7 @@ class _HomePageState extends State<HomePage> {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => PredictionPage(heap),
+                            builder: (context) => PredictionPage(heap, _labels),
                           ),
                         );
                       },

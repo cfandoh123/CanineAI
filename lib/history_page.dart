@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
+import 'package:intl/intl.dart';
 
 class HistoryPage extends StatefulWidget {
   const HistoryPage({super.key});
@@ -104,11 +105,22 @@ class _HistoryPageState extends State<HistoryPage> {
                         style: const TextStyle(fontWeight: FontWeight.bold),
                       ),
                       subtitle: Text(
-                        'Confidence: ${(item['confidence'] * 100).toStringAsFixed(2)}%\n${item['date'] != null ? DateTime.tryParse(item['date'])?.toLocal().toString().split(".")[0] : ''}',
+                        'Confidence: ${(item['confidence'] * 100).toStringAsFixed(2)}%\\n${_formatDate(item['date'])}',
                       ),
                     );
                   },
                 ),
     );
+  }
+
+  String _formatDate(String? dateStr) {
+    if (dateStr == null) {
+      return 'Date unknown';
+    }
+    final dt = DateTime.tryParse(dateStr);
+    if (dt == null) {
+      return 'Invalid date';
+    }
+    return DateFormat.yMMMd().add_jm().format(dt.toLocal());
   }
 } 

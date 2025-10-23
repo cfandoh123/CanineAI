@@ -47,6 +47,8 @@ dependencies:
   # Add any other dependencies as needed
 
   image: any
+  flutter_dotenv: ^6.0.0
+  intl: ^0.20.2
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -75,7 +77,9 @@ flutter:
   uses-material-design: true
 
   assets:
+    - .env
     - assets/model/canine_ai_model.tflite
+    - assets/model/labels.txt
     - assets/images/background.png
     - assets/images/placeholder.png
     - assets/lottie/404.json

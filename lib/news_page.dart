@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class NewsPage extends StatefulWidget {
   const NewsPage({super.key});
@@ -28,7 +29,8 @@ class _NewsPageState extends State<NewsPage> {
     });
     try {
       // Using GNews API (free, no key required, limited results)
-      final url = Uri.parse('https://gnews.io/api/v4/search?q=dog&lang=en&max=10&token=1b5e2e7e7e2e7e7e2e7e2e7e2e7e2e7e');
+      final apiKey = dotenv.env['GNEWS_API_KEY'];
+      final url = Uri.parse('https://gnews.io/api/v4/search?q=dog&lang=en&max=10&token=$apiKey');
       final response = await http.get(url);
       if (response.statusCode == 200) {
         final data = jsonDecode(response.body);

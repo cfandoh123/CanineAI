@@ -1,0 +1,81 @@
+PODS:
+  - Flutter (1.0.0)
+  - image_picker_ios (0.0.1):
+    - Flutter
+  - path_provider_foundation (0.0.1):
+    - Flutter
+    - FlutterMacOS
+  - share_plus (0.0.1):
+    - Flutter
+  - shared_preferences_foundation (0.0.1):
+    - Flutter
+    - FlutterMacOS
+  - TensorFlowLiteC (2.12.0):
+    - TensorFlowLiteC/Core (= 2.12.0)
+  - TensorFlowLiteC/Core (2.12.0)
+  - TensorFlowLiteC/CoreML (2.12.0):
+    - TensorFlowLiteC/Core
+  - TensorFlowLiteC/Metal (2.12.0):
+    - TensorFlowLiteC/Core
+  - TensorFlowLiteSwift (2.12.0):
+    - TensorFlowLiteSwift/Core (= 2.12.0)
+  - TensorFlowLiteSwift/Core (2.12.0):
+    - TensorFlowLiteC (= 2.12.0)
+  - TensorFlowLiteSwift/CoreML (2.12.0):
+    - TensorFlowLiteC/CoreML (= 2.12.0)
+    - TensorFlowLiteSwift/Core (= 2.12.0)
+  - TensorFlowLiteSwift/Metal (2.12.0):
+    - TensorFlowLiteC/Metal (= 2.12.0)
+    - TensorFlowLiteSwift/Core (= 2.12.0)
+  - tflite_flutter (0.0.1):
+    - Flutter
+    - TensorFlowLiteSwift (= 2.12.0)
+    - TensorFlowLiteSwift/CoreML (= 2.12.0)
+    - TensorFlowLiteSwift/Metal (= 2.12.0)
+  - url_launcher_ios (0.0.1):
+    - Flutter
+
+DEPENDENCIES:
+  - Flutter (from `Flutter`)
+  - image_picker_ios (from `.symlinks/plugins/image_picker_ios/ios`)
+  - path_provider_foundation (from `.symlinks/plugins/path_provider_foundation/darwin`)
+  - share_plus (from `.symlinks/plugins/share_plus/ios`)
+  - shared_preferences_foundation (from `.symlinks/plugins/shared_preferences_foundation/darwin`)
+  - tflite_flutter (from `.symlinks/plugins/tflite_flutter/ios`)
+  - url_launcher_ios (from `.symlinks/plugins/url_launcher_ios/ios`)
+
+SPEC REPOS:
+  trunk:
+    - TensorFlowLiteC
+    - TensorFlowLiteSwift
+
+EXTERNAL SOURCES:
+  Flutter:
+    :path: Flutter
+  image_picker_ios:
+    :path: ".symlinks/plugins/image_picker_ios/ios"
+  path_provider_foundation:
+    :path: ".symlinks/plugins/path_provider_foundation/darwin"
+  share_plus:
+    :path: ".symlinks/plugins/share_plus/ios"
+  shared_preferences_foundation:
+    :path: ".symlinks/plugins/shared_preferences_foundation/darwin"
+  tflite_flutter:
+    :path: ".symlinks/plugins/tflite_flutter/ios"
+  url_launcher_ios:
+    :path: ".symlinks/plugins/url_launcher_ios/ios"
+
+SPEC CHECKSUMS:
+  Flutter: e0871f40cf51350855a761d2e70bf5af5b9b5de7
+  image_picker_ios: 7fe1ff8e34c1790d6fff70a32484959f563a928a
+  path_provider_foundation: 080d55be775b7414fd5a5ef3ac137b97b097e564
+  share_plus: 50da8cb520a8f0f65671c6c6a99b3617ed10a58a
+  shared_preferences_foundation: 9e1978ff2562383bd5676f64ec4e9aa8fa06a6f7
+  TensorFlowLiteC: 20785a69299185a379ba9852b6625f00afd7984a
+  TensorFlowLiteSwift: 3a4928286e9e35bdd3e17970f48e53c80d25e793
+  tflite_flutter: 64b192e11352fe36943ab6656e1d49207f1a5595
+  url_launcher_ios: 694010445543906933d732453a59da0a173ae33d
+
+PODFILE CHECKSUM: fdbe81e102c86dda73d701723fde88c9bc718c99
+
+COCOAPODS: 1.16.2
